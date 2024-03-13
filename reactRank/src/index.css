@@ -1,0 +1,129 @@
+@import url("https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Oxygen", sans-serif;
+}
+
+body {
+  margin: 0;
+  background-color: rgb(97, 97, 97);
+  color: whitesmoke;
+}
+
+.centered {
+  margin: 3rem auto;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  width: 500px;
+  height: 200px;
+}
+.gamecontainer {
+  position: relative;
+  width: 400px;
+  height: 140px;
+}
+.gamecontainer img {
+  object-fit: cover;
+  max-height: 100%;
+  max-width: 100%;
+}
+.gametitle {
+  font-size: x-large;
+  background-color: rgba(0, 0, 0, 0.445);
+  color: white;
+  text-shadow: 5px 5px 5px rgba(0, 0, 0, 0.909);
+  position: absolute;
+  width: 100%;
+  text-align: end;
+  padding-right: 5px;
+  z-index: 3;
+}
+
+.rankNum {
+  font-size: x-large;
+  position: absolute;
+  border-radius: 10px;
+  z-index: 3;
+  text-shadow: 5px 5px 5px rgba(0, 0, 0, 0.909);
+  text-align: start;
+  bottom: 22%;
+  left: 10px;
+  /* background: -webkit-linear-gradient(#eee, #333);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; */
+}
+
+.rankNum span {
+  background-color: rgba(0, 0, 0, 0.443);
+  padding: 2px 10px;
+  border-radius: 1.5em;
+}
+.arrow {
+  font-size: medium;
+  border-radius: 0 25px 25px 0;
+  position: absolute;
+  text-align: center;
+  color: white;
+  text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.909);
+  padding-left: 5px;
+  width: 15%;
+  background-color: rgba(0, 0, 0, 0.55);
+  /* right: 20px; */
+  border: none;
+  transition-duration: 0.25s;
+  z-index: 4;
+}
+
+.up {
+  top: 25%;
+}
+.down {
+  bottom: 5%;
+}
+.addbutton {
+  font-size: medium;
+  position: absolute;
+  text-align: end;
+  color: white;
+  text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.909);
+  padding-right: 15px;
+  width: 50%;
+  z-index: 4;
+  background-color: rgba(255, 255, 255, 0.139);
+  bottom: 15px;
+  right: 0px;
+  border: none;
+  transition-duration: 0.25s;
+}
+.addbutton:hover {
+  background-color: rgba(0, 159, 53, 0.438);
+}
+
+.deletebutton {
+  font-size: medium;
+  position: absolute;
+  text-align: end;
+  color: white;
+  text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.909);
+  padding-right: 15px;
+  width: 25%;
+  z-index: 4;
+  background-color: rgba(202, 0, 0, 0.326);
+  bottom: 30%;
+  right: 0px;
+  border: none;
+  transition-duration: 0.25s;
+}
+.ranking {
+  background-color: rgb(30, 30, 30);
+}
