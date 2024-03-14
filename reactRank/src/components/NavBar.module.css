@@ -1,0 +1,41 @@
+.navbar {
+  height: 6rem;
+  background-color: rgb(37, 37, 37);
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0), rgb(34, 34, 34));
+}
+
+.navbar nav {
+  height: 100%;
+}
+.navbar ul {
+  height: 100%;
+  list-style: none;
+  display: flex;
+  padding: 0;
+  margin: 0;
+  align-items: center;
+  justify-content: space-around;
+}
+.navbar li {
+  margin: 0 1rem;
+  width: 10rem;
+  font-size: 2vw;
+  transition-duration: 0.25s;
+}
+
+h3 {
+  font-weight: lighter;
+}
+.navbar a {
+  color: white;
+  text-decoration: none;
+  font-weight: 100;
+}
+.navbar a:hover,
+.navbar a:active,
+.navbar a.active {
+  color: rgb(240, 240, 240);
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid whitesmoke;
+  font-size: 2vw;
+}

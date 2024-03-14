@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
-import Search from "./Search";
+import Search from "../components/Search";
 import Context from "../context/Context";
-import Ranking from "./Ranking";
+import Ranking from "../components/Ranking";
 
 const Display = () => {
   const [myRanking, setMyRanking] = useState([]);
@@ -27,9 +27,19 @@ const Display = () => {
     tempArr.splice(idx - 1, 0, mover);
     setMyRanking(tempArr);
   };
+  const downRank = (idx) => {
+    console.log("going down");
+    const tempArr = [...myRanking];
+    const mover = myRanking[idx];
+    tempArr.splice(idx, 1);
+    tempArr.splice(idx + 1, 0, mover);
+    setMyRanking(tempArr);
+  };
+
   return (
     <div className="container">
       <div className="row">
+        <h3 className="display-3">Ranker</h3>
         <Context.Provider
           value={{ addToRank, showRank, setShowRank, myRanking, setMyRanking }}
         >
@@ -41,6 +51,7 @@ const Display = () => {
               myRanking={myRanking}
               deleteRank={deleteRankEntry}
               upRank={upRank}
+              downRank={downRank}
             ></Ranking>
           </div>
         </Context.Provider>

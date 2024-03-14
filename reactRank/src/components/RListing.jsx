@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "./Button";
 
 const RListing = (props) => {
+  const [controlDisplay, setControlDisplay] = useState(false);
+
   return (
-    <div className="row g-0 gamecontainer">
+    <div
+      className="row g-0 rankcontainer"
+      onMouseEnter={() => {
+        setControlDisplay(true);
+      }}
+      onMouseLeave={() => {
+        setControlDisplay(false);
+      }}
+    >
       <img
         src={props.image}
         onDoubleClick={() => {
@@ -14,7 +24,8 @@ const RListing = (props) => {
       <h3 className="rankNum">
         <span>{props.rank}</span>
       </h3>
-      {props.idx !== 0 ? (
+
+      {!props.cPanel && controlDisplay && props.idx !== 0 ? (
         <Button
           className="arrow up"
           trigger={() => {
@@ -26,17 +37,26 @@ const RListing = (props) => {
       ) : (
         ""
       )}
-      <Button
-        className="deletebutton"
-        trigger={() => {
-          props.delete(props.idx);
-        }}
-      >
-        delete
-      </Button>
-      <Button className="arrow down" trigger={() => {}}>
-        &#9660;
-      </Button>
+      {!props.cPanel && controlDisplay && (
+        <Button
+          className="deletebutton"
+          trigger={() => {
+            props.delete(props.idx);
+          }}
+        >
+          delete
+        </Button>
+      )}
+      {!props.cPanel && controlDisplay && (
+        <Button
+          className="arrow down"
+          trigger={() => {
+            props.downRank(props.idx);
+          }}
+        >
+          &#9660;
+        </Button>
+      )}
     </div>
   );
 };
