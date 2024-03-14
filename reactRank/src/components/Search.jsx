@@ -46,13 +46,13 @@ const Search = () => {
     }
     setIsLoading(false);
   };
-  useEffect(() => {
-    const controller = new AbortController();
+  // useEffect(() => {
+  //   const controller = new AbortController();
 
-    return () => {
-      controller.abort();
-    };
-  }, []);
+  //   return () => {
+  //     controller.abort();
+  //   };
+  // }, []);
   /////////////////////////////////////////////////RENDERER////////////
 
   return (
@@ -61,24 +61,40 @@ const Search = () => {
         <label>Search: &nbsp;</label>
         <input
           type="type"
+          className="search"
           ref={textInRef}
           placeholder={showEmptyWarning ? emptyWarning : messageOfTheDay}
+          onKeyDown={(e) => {
+            if (e.code === "Enter") {
+              getGameData();
+            }
+          }}
         ></input>
-        <button onClick={getGameData}>Search</button>
-        <button onClick={getPsudoGameData}>Debugger Search</button>
-        <br />
-        <br />
+        <button className={"btn btn-success btn-sm"} onClick={getGameData}>
+          Search
+        </button>
+        <button
+          className={"btn btn-outline-success btn-sm"}
+          onClick={getPsudoGameData}
+        >
+          Debug
+        </button>
         <br />
       </div>
+      <br />
       <div className="row">
         {isLoading ? <PacmanLoader color="#d6ab36" /> : ""}
-        {searchTrigger && (
+        {searchTrigger ? (
           <div className="row">{`Results: ${results.count} found, returning the first 10 (Try to give exact titles for better results!)`}</div>
+        ) : (
+          <small>Tip: Search for multiple games seperated with a comma!</small>
         )}
       </div>
+
+      <hr></hr>
       <div className="container">
         {results.results.length === 0 ? (
-          "it's lonely here"
+          "Start searching and adding to your list!"
         ) : (
           <div className="row">
             {results.results.map((entry, idx) => {

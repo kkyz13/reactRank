@@ -87,7 +87,7 @@ const ControlPanel = () => {
   return (
     <>
       <div className="container">
-        <div className="display-4">CONTROL PANEL</div>
+        <div className="display-6">CONTROL PANEL</div>
         <div className="row">
           <div className="col-sm-8">
             <select
@@ -113,7 +113,7 @@ const ControlPanel = () => {
             </Button>
           </div>
           <div>
-            Preview:
+            Rank List Preview:
             {showRank &&
               myRanking.map((entry, idx) => {
                 console.log("1");

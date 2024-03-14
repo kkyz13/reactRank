@@ -22,30 +22,70 @@ body {
   align-items: center;
 }
 
-.card {
-  width: 500px;
-  height: 200px;
+.search {
+  outline: none;
+  color: rgb(160, 255, 175);
+  background-color: rgb(97, 97, 97);
+  padding: 3px 3px;
+  border: none;
+  border-bottom: 2px solid rgb(125, 125, 125);
+  transition-duration: 0.3s;
+}
+.search::placeholder {
+  color: rgba(245, 245, 245, 0.231);
+}
+.search:focus {
+  border-bottom: 2px solid rgb(100, 254, 123);
+  background-color: rgba(0, 72, 11, 0.438);
 }
 .gamecontainer {
   position: relative;
   width: 400px;
-  height: 7vw;
+  height: 6vw;
 }
 .gamecontainer img {
   object-fit: cover;
+  display: block;
   max-height: 100%;
   max-width: 100%;
 }
 
+.selector {
+  background-color: rgb(255, 248, 222);
+}
+.yourtitle {
+  background-color: rgba(255, 255, 255, 0.276);
+  border: none;
+  color: whitesmoke;
+  padding: 5px 2px;
+  margin: 5px;
+  transition-duration: 0.5s;
+}
+.yourtitle:focus {
+  font-size: larger;
+  border-bottom: 2px solid rgb(254, 169, 100);
+  background-color: rgba(72, 31, 0, 0.438);
+}
+.yourtitle::after {
+  font-size: larger;
+  color: whitesmoke;
+}
 .rankcontainer {
+  overflow: hidden;
   position: relative;
-  width: 400px;
+  width: 90%;
   height: 100px;
 }
 .rankcontainer img {
   object-fit: cover;
   max-height: 100%;
   max-width: 100%;
+  transition-duration: 2s;
+  transition-timing-function: ease-out;
+}
+
+.rankcontainer img:hover {
+  transform: scale(1.2);
 }
 .gametitle {
   font-size: 1.75vw;
@@ -57,14 +97,13 @@ body {
   text-align: end;
   padding-right: 5px;
   z-index: 3;
-  white-space: pre;
-  overflow: hidden;
+  /* white-space: pre; */
 }
 
 .rankNum {
-  font-size: x-large;
+  font-size: large;
   position: absolute;
-  border-radius: 10px;
+  /* border-radius: 10px; */
   z-index: 3;
   text-shadow: 5px 5px 5px rgba(0, 0, 0, 0.909);
   text-align: start;
@@ -104,7 +143,7 @@ body {
   bottom: 5%;
 }
 .addbutton {
-  font-size: 1.4vw;
+  font-size: 1vw;
   position: absolute;
   text-align: end;
   color: white;
@@ -141,7 +180,9 @@ body {
   background-color: rgba(218, 12, 12, 0.473);
 }
 .ranking {
-  background-color: rgb(30, 30, 30);
+  background-color: rgba(30, 30, 30, 0.532);
   text-align: center;
-  width: 100%;
+  /* height: 600px; */
+  padding: 0.5em;
+  flex-direction: column;
 }

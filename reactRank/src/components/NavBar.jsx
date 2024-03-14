@@ -19,6 +19,7 @@ const NavBar = () => {
             <NavLink
               className={(navData) => (navData.isActive ? styles.active : "")}
               to="/CPanel"
+              style={{ textAlign: "right" }}
             >
               Control Panel
             </NavLink>

@@ -39,14 +39,14 @@ const Display = () => {
   return (
     <div className="container">
       <div className="row">
-        <h3 className="display-3">Ranker</h3>
+        {/* <h3 className="display-3">Ranker</h3> */}
         <Context.Provider
           value={{ addToRank, showRank, setShowRank, myRanking, setMyRanking }}
         >
-          <div className="col-sm-6">
+          <div className="col-sm-5">
             <Search></Search>
           </div>
-          <div className="col-sm-6">
+          <div className="col-sm-7">
             <Ranking
               myRanking={myRanking}
               deleteRank={deleteRankEntry}
