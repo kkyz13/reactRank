@@ -42,6 +42,7 @@ body {
   position: relative;
   width: 400px;
   height: 6vw;
+  user-select: none;
 }
 .gamecontainer img {
   object-fit: cover;
@@ -75,6 +76,7 @@ body {
   position: relative;
   width: 90%;
   height: 100px;
+  user-select: none;
 }
 .rankcontainer img {
   object-fit: cover;

@@ -16,6 +16,7 @@ const Ranking = (props) => {
     Ctx.setMyRanking([]);
     rankTitleRef.current.value = "";
     setRankID("");
+    resetSelector();
   };
   const fetchRankListFromAirTab = async () => {
     try {
@@ -106,7 +107,7 @@ const Ranking = (props) => {
   };
 
   const postRankListToAirTab = async () => {
-    if (rankTitleRef.current.value === "") {
+    if (rankTitleRef.current.value !== "") {
       if (Ctx.myRanking.length !== 0) {
         try {
           console.log("Trying to POST to Airtable");
@@ -133,8 +134,8 @@ const Ranking = (props) => {
           if (res.status === 200) {
             console.log("successful POST from Airtable");
             const data = await res.json();
-            setRankID(data.id);
-            console.log(data.id);
+            setRankID(data.records[0].id);
+            console.log(data);
             setSelectRank(false);
             fetchRankListFromAirTab();
           }
