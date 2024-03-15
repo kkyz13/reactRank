@@ -15,20 +15,11 @@ function App() {
         <Route path="ranker" element={<Display />}></Route>
         <Route path="CPanel" element={<ControlPanel />}></Route>
       </Routes>
-
-      {/* <header className="container">
-        <div className="row">
-          <div className="col-sm-6">
-            <h2 className="display-2">Ranker</h2>
-          </div>
-          <div className="col-sm-3"></div>
-          <div
-            className="col-sm-3 display-4"
-            style={{ textAlign: "right", fontSize: "4vw" }}
-          ></div>
-        </div>
-      </header> */}
-      {/* <Display></Display> */}
+      <footer>
+        <small>
+          Videogame API from <a href="https://rawg.io">RAWG.io</a>
+        </small>
+      </footer>
     </>
   );
 }

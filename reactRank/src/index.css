@@ -10,10 +10,29 @@ html {
 
 body {
   margin: 0;
-  background-color: rgb(97, 97, 97);
+  background-color: rgb(57, 57, 57);
   color: whitesmoke;
 }
 
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(36, 40, 38, 0.728);
+  z-index: 10;
+}
+
+footer a:link {
+  text-decoration: none;
+  color: rgb(22, 224, 22);
+}
+footer a:visited {
+  color: rgb(21, 172, 74);
+}
+footer a:hover {
+  color: greenyellow;
+}
 .centered {
   margin: 3rem auto;
   text-align: center;
@@ -31,8 +50,11 @@ body {
   border-bottom: 2px solid rgb(125, 125, 125);
   transition-duration: 0.3s;
 }
+.search:hover {
+  background-color: rgba(0, 72, 11, 0.164);
+}
 .search::placeholder {
-  color: rgba(245, 245, 245, 0.231);
+  color: rgba(245, 245, 245, 0.365);
 }
 .search:focus {
   border-bottom: 2px solid rgb(100, 254, 123);
@@ -53,24 +75,49 @@ body {
 
 .selector {
   background-color: rgb(255, 248, 222);
+  width: 80%;
+  border: 2px solid rgb(255, 196, 0);
+  margin-right: 5px;
+  padding: 2px;
+}
+.titleForm {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .yourtitle {
-  background-color: rgba(255, 255, 255, 0.276);
+  outline: none;
+  text-align: left;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0);
   border: none;
   color: whitesmoke;
-  padding: 5px 2px;
+  padding: 5px 10px;
   margin: 5px;
   transition-duration: 0.5s;
+  font-size: xx-large;
+  font-weight: 200;
+  text-rendering: optimizeLegibility;
+}
+.yourtitle:hover {
+  background-color: #6e6e6e;
 }
 .yourtitle:focus {
-  font-size: larger;
-  border-bottom: 2px solid rgb(254, 169, 100);
-  background-color: rgba(72, 31, 0, 0.438);
+  /* font-size: larger; */
+
+  border-bottom: 2px solid rgba(239, 239, 239, 0.653);
+  background-color: rgba(79, 79, 79, 0.438);
 }
-.yourtitle::after {
-  font-size: larger;
-  color: whitesmoke;
+
+.ranking {
+  background-color: rgba(30, 30, 30, 0.532);
+  text-align: center;
+  /* height: 600px; */
+  padding: 0.5em;
+  /* flex-direction: column; */
+  justify-content: center;
 }
+
 .rankcontainer {
   overflow: hidden;
   position: relative;
@@ -102,25 +149,19 @@ body {
   /* white-space: pre; */
 }
 
-.rankNum {
-  font-size: large;
+.rankNum span {
+  padding: 2px 10px;
+  border-radius: 1.5em;
+  font-size: 64pt;
+  font-weight: 800;
   position: absolute;
   /* border-radius: 10px; */
   z-index: 3;
-  text-shadow: 5px 5px 5px rgba(0, 0, 0, 0.909);
+  text-shadow: 5px 5px 5px rgba(0, 0, 0, 0.909), 1px 1px #000, -1px -1px #000,
+    1px -1px #000, 1px -1px #000, 3px 3px #000;
   text-align: start;
-  bottom: 22%;
+  top: 18%;
   left: 10px;
-  /* background: -webkit-linear-gradient(#eee, #333);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent; */
-}
-
-.rankNum span {
-  background-color: rgba(0, 0, 0, 0.443);
-  padding: 2px 10px;
-  border-radius: 1.5em;
 }
 .arrow {
   font-size: medium;
@@ -180,11 +221,4 @@ body {
 }
 .deletebutton:hover {
   background-color: rgba(218, 12, 12, 0.473);
-}
-.ranking {
-  background-color: rgba(30, 30, 30, 0.532);
-  text-align: center;
-  /* height: 600px; */
-  padding: 0.5em;
-  flex-direction: column;
 }

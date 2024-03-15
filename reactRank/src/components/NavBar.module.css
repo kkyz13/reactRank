@@ -1,5 +1,5 @@
 .navbar {
-  height: 6rem;
+  height: 3rem;
   background-color: rgb(37, 37, 37);
   background: linear-gradient(0deg, rgba(255, 255, 255, 0), rgb(34, 34, 34));
 }
@@ -26,21 +26,22 @@
 .navbar a {
   color: rgb(147, 147, 147);
   text-decoration: none;
-  font-size: 2vw;
+  font-size: 1.5vw;
   font-weight: 100;
   transition-duration: 0.5s;
 }
+.navbar a.active:hover,
 .navbar a:hover,
 .navbar a:active {
   color: rgb(240, 240, 240);
   padding-bottom: 0.25rem;
   border-bottom: 1px solid rgb(100, 254, 123);
-  font-size: 2vw;
+  font-size: 1.6vw;
 }
 
 .navbar a.active {
   color: rgb(240, 240, 240);
   padding-bottom: 0.25rem;
   border-bottom: 1px solid rgb(100, 254, 123);
-  font-size: 2vw;
+  font-size: 1.6vw;
 }

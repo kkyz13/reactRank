@@ -21,7 +21,7 @@ const RListing = (props) => {
         }}
       ></img>
       <h1 className="gametitle">{props.name}</h1>
-      <h3 className="rankNum rounded-circle">
+      <h3 className="rankNum">
         <span>{props.rank}</span>
       </h3>
 

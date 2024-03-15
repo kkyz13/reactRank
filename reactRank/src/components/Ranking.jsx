@@ -41,7 +41,7 @@ const Ranking = (props) => {
   };
 
   const resetSelector = () => {
-    const selectorTarget = document.getElementsByClassName("select");
+    const selectorTarget = document.querySelector(".selector");
     selectorTarget.value = "default";
   };
   const getRankListToAirTab = async (target) => {
@@ -157,45 +157,52 @@ const Ranking = (props) => {
 
   return (
     <div className="container">
-      <h5 className="display-6">Ranking</h5>
+      {!isLoading ? (
+        <h5 className="display-6">Ranking</h5>
+      ) : (
+        <h5 className="display-6">Loading...</h5>
+      )}
       <div className="row g-2">
-        <select
-          className="selector"
-          onChange={(e) => {
-            getRankListToAirTab(e.target.value);
-          }}
-        >
-          <option value={"default"}>Open existing rankings:</option>
-          {selectRank ? (
-            rankListFromAirTab.records.map((entry, idx) => {
-              return (
-                <option key={idx} value={entry.id}>
-                  {entry.fields.Name}
-                </option>
-              );
-            })
-          ) : (
-            <option>loading...</option>
-          )}
-        </select>
+        <div>
+          <select
+            className="form-select-sm selector"
+            onChange={(e) => {
+              getRankListToAirTab(e.target.value);
+            }}
+          >
+            <option value={"default"}>Open existing rankings:</option>
+            {selectRank ? (
+              rankListFromAirTab.records.map((entry, idx) => {
+                return (
+                  <option key={idx} value={entry.id}>
+                    {entry.fields.Name}
+                  </option>
+                );
+              })
+            ) : (
+              <option>loading...</option>
+            )}
+          </select>
 
-        <Button
-          className="btn btn-warning btn-sm"
-          trigger={() => {
-            clearList();
-          }}
-        >
-          New List/Clear
-        </Button>
+          <Button
+            className="btn btn-warning btn-sm"
+            trigger={() => {
+              clearList();
+            }}
+          >
+            New List/Clear
+          </Button>
+        </div>
       </div>
 
-      {isLoading && <PacmanLoader color="#d6cd36" />}
+      {isLoading && (
+        <PacmanLoader color="#d6cd36" margin={5} speedMultiplier={2} />
+      )}
       <div>
         {/* <div className="ranking"> */}
         <div className="row g-0 ranking">
-          <>
-            <div>
-              <label>Title:</label>
+          <div className="container">
+            <div className="titleForm">
               <input
                 ref={rankTitleRef}
                 className="yourtitle"
@@ -220,7 +227,7 @@ const Ranking = (props) => {
                 {rankID ? "Duplicate" : "Save"}
               </Button>
             </div>
-          </>
+          </div>
 
           {Ctx.showRank &&
             props.myRanking.map((entry, idx) => {
