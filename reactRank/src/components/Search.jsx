@@ -83,7 +83,7 @@ const Search = () => {
       </div>
       <br />
       <div className="row">
-        {isLoading ? <PacmanLoader color="#d6ab36" /> : ""}
+        {isLoading ? <PacmanLoader color="#d6ab36" speedMultiplier={3} /> : ""}
         {searchTrigger ? (
           <div className="row">{`Results: ${results.count} found, returning the first 10 (Try to give exact titles for better results!)`}</div>
         ) : (

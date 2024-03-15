@@ -157,8 +157,6 @@ footer a:hover {
   background-color: #434343;
 }
 .yourtitle:focus {
-  /* font-size: larger; */
-
   border-bottom: 2px solid rgba(239, 239, 239, 0.653);
   background-color: rgba(79, 79, 79, 0.438);
 }
@@ -166,9 +164,7 @@ footer a:hover {
 .ranking {
   background-color: rgba(30, 30, 30, 0.532);
   text-align: center;
-  /* height: 600px; */
   padding: 0.5em;
-  /* flex-direction: column; */
   justify-content: center;
 }
 
@@ -180,15 +176,18 @@ footer a:hover {
   user-select: none;
 }
 .rankcontainer img {
+  position: absolute;
   object-fit: cover;
   max-height: 100%;
   max-width: 100%;
-  transition-duration: 5s;
-  transition-timing-function: linear;
+  object-position: 0 -20px;
+  transition-duration: 10s;
+  transition-timing-function: ease-out;
 }
 
 .rankcontainer img:hover {
-  transform: scale(1.2);
+  transform: scale(1.1);
+  object-position: 0 -50px;
 }
 .gametitle {
   font-size: 1.75vw;

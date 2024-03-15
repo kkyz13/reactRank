@@ -197,7 +197,7 @@ const Ranking = (props) => {
         </div>
         <div className="col-sm-6">
           {isLoading && (
-            <PacmanLoader color="#d6cd36" margin={5} speedMultiplier={2} />
+            <PacmanLoader color="#d6cd36" margin={5} speedMultiplier={3} />
           )}
         </div>
       </div>
