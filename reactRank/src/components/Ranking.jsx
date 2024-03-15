@@ -5,7 +5,10 @@ import Button from "./Button";
 import { PacmanLoader } from "react-spinners";
 
 const Ranking = (props) => {
+  const [userTell, setUserTell] = useState("");
+
   const rankTitleRef = useRef();
+  const [emptyWarning, setEmptyWarning] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [rankID, setRankID] = useState();
   const [rankListFromAirTab, setRankListFromAirTab] = useState({ records: [] });
@@ -17,9 +20,27 @@ const Ranking = (props) => {
     rankTitleRef.current.value = "";
     setRankID("");
     resetSelector();
+    setEmptyWarning(false);
+    setUserTell("Cleared, a fresh list is ready!");
   };
+  if (userTell) {
+    const userTellPoint = document.querySelector(".usertell");
+    userTellPoint.classList.add("spawn");
+    console.log(userTellPoint);
+    setTimeout(() => {
+      console.log("despawn");
+      userTellPoint.classList.remove("spawn");
+      userTellPoint.classList.add("despawn");
+      setTimeout(() => {
+        setUserTell("");
+        userTellPoint.classList.remove("despawn");
+      }, 260);
+    }, 5000);
+  }
+
   const fetchRankListFromAirTab = async () => {
     try {
+      setIsLoading(true);
       const res = await fetch(
         "https://api.airtable.com/v0/appea1L2EfUKfNpwi/RankLists",
         {
@@ -38,13 +59,14 @@ const Ranking = (props) => {
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
   };
 
   const resetSelector = () => {
     const selectorTarget = document.querySelector(".selector");
     selectorTarget.value = "default";
   };
-  const getRankListToAirTab = async (target) => {
+  const getRankListFromAirTab = async (target) => {
     try {
       setIsLoading(true);
       console.log(`getting ${target}`);
@@ -76,6 +98,7 @@ const Ranking = (props) => {
   const putRankListToAirTab = async (target) => {
     try {
       console.log(`putting ${target}`);
+      setUserTell("Saving...");
       const res = await fetch(
         "https://api.airtable.com/v0/appea1L2EfUKfNpwi/RankLists/" + target,
         {
@@ -93,13 +116,15 @@ const Ranking = (props) => {
         }
       );
       if (res.status === 200) {
-        console.log("successful GET from Airtable");
+        console.log("successful PUT from Airtable");
         const data = await res.json();
         // console.log(typeof data);
         Ctx.setMyRanking(JSON.parse(data.fields.Ranking)); //Airtable returns nested items as stringified JSON
         setRankID(data.id);
         Ctx.setShowRank(true);
         rankTitleRef.current.value = data.fields.Name;
+        fetchRankListFromAirTab();
+        setUserTell("Saved! Give it a moment for updates to be reflected");
       }
     } catch (error) {
       console.log(error);
@@ -111,6 +136,8 @@ const Ranking = (props) => {
       if (Ctx.myRanking.length !== 0) {
         try {
           console.log("Trying to POST to Airtable");
+          setUserTell("Saving...");
+
           const res = await fetch(
             "https://api.airtable.com/v0/appea1L2EfUKfNpwi/RankLists",
             {
@@ -138,15 +165,17 @@ const Ranking = (props) => {
             console.log(data);
             setSelectRank(false);
             fetchRankListFromAirTab();
+            setUserTell("Saved! Give it a moment for updates to be reflected");
           }
         } catch (error) {
           console.log(error);
         }
       } else {
-        console.log("you cannot save an empty list");
+        setUserTell("You cannot save an empty list");
       }
     } else {
-      console.log("you need a title to save");
+      setUserTell("You cannot save with no title");
+      setEmptyWarning(true);
     }
   };
 
@@ -157,17 +186,27 @@ const Ranking = (props) => {
 
   return (
     <div className="container">
-      {!isLoading ? (
-        <h5 className="display-6">Ranking</h5>
-      ) : (
-        <h5 className="display-6">Loading...</h5>
-      )}
+      <div className="row">
+        {" "}
+        <div className="col-sm-6">
+          {!isLoading ? (
+            <h5 className="display-6">Ranking</h5>
+          ) : (
+            <h5 className="display-6">Loading...</h5>
+          )}
+        </div>
+        <div className="col-sm-6">
+          {isLoading && (
+            <PacmanLoader color="#d6cd36" margin={5} speedMultiplier={2} />
+          )}
+        </div>
+      </div>
       <div className="row g-2">
         <div>
           <select
             className="form-select-sm selector"
             onChange={(e) => {
-              getRankListToAirTab(e.target.value);
+              getRankListFromAirTab(e.target.value);
             }}
           >
             <option value={"default"}>Open existing rankings:</option>
@@ -195,18 +234,18 @@ const Ranking = (props) => {
         </div>
       </div>
 
-      {isLoading && (
-        <PacmanLoader color="#d6cd36" margin={5} speedMultiplier={2} />
-      )}
       <div>
         {/* <div className="ranking"> */}
         <div className="row g-0 ranking">
           <div className="container">
+            <div className="usertell">{userTell}</div>
             <div className="titleForm">
               <input
                 ref={rankTitleRef}
                 className="yourtitle"
-                placeholder="Your Title"
+                placeholder={
+                  emptyWarning ? "Title cannot be empty" : "Your Title"
+                }
               ></input>
               {rankID && (
                 <Button

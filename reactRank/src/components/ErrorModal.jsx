@@ -14,7 +14,11 @@ const OverLay = (props) => {
           <p>{props.message}</p>
         </div>
         <div className={styles.actions}>
-          <Button trigger={props.dismiss}>Ok</Button>
+          <h3>
+            <Button className="badge text-bg-light" trigger={props.dismiss}>
+              Ok
+            </Button>
+          </h3>
         </div>
       </div>
     </div>

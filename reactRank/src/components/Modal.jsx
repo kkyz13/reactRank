@@ -14,14 +14,19 @@ const OverLay = (props) => {
           <p>{props.message}</p>
         </div>
         <div className={styles.actions}>
-          <Button
-            trigger={() => {
-              props.delete(props.rankID);
-            }}
-          >
-            Yes
-          </Button>
-          <Button trigger={props.dismiss}>No! Get me out of here!</Button>
+          <h3>
+            <Button
+              className="badge text-bg-danger"
+              trigger={() => {
+                props.delete(props.rankID);
+              }}
+            >
+              Yes
+            </Button>
+            <Button className="badge text-bg-light" trigger={props.dismiss}>
+              No! Get me out of here!
+            </Button>
+          </h3>
         </div>
       </div>
     </div>

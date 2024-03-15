@@ -17,7 +17,7 @@ function App() {
       </Routes>
       <footer>
         <small>
-          Videogame API from <a href="https://rawg.io">RAWG.io</a>
+          Videogame Database API from <a href="https://rawg.io">RAWG.io</a>
         </small>
       </footer>
     </>

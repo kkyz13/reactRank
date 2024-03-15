@@ -19,14 +19,14 @@
 .navbar li {
   margin: 0 5rem;
   width: 10rem;
-  font-size: 1.5vw;
+  /* font-size: 1.5vw; */
   text-align: right;
 }
 
 .navbar a {
   color: rgb(147, 147, 147);
   text-decoration: none;
-  font-size: 1.5vw;
+  font-size: 1.4vw;
   font-weight: 100;
   transition-duration: 0.5s;
 }
@@ -36,12 +36,22 @@
   color: rgb(240, 240, 240);
   padding-bottom: 0.25rem;
   border-bottom: 1px solid rgb(100, 254, 123);
-  font-size: 1.6vw;
+  font-size: 1.5vw;
 }
 
 .navbar a.active {
   color: rgb(240, 240, 240);
   padding-bottom: 0.25rem;
   border-bottom: 1px solid rgb(100, 254, 123);
-  font-size: 1.6vw;
+  font-size: 1.5vw;
+}
+
+@media screen and (max-width: 1000px) {
+  .navbar a,
+  .navbar a.active:hover,
+  .navbar a:hover,
+  .navbar a:active,
+  .navbar a.active {
+    font-size: 16pt;
+  }
 }

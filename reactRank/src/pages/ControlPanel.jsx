@@ -3,10 +3,13 @@ import Button from "../components/Button";
 import RListing from "../components/RListing";
 import Modal from "../components/Modal";
 import ErrorModal from "../components/ErrorModal";
+import { PacmanLoader } from "react-spinners";
 
 const ControlPanel = () => {
   const [rankID, setRankID] = useState();
   const [rankName, setRankName] = useState("");
+  const [userTell, setUserTell] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [selectRank, setSelectRank] = useState(false);
   const [showRank, setShowRank] = useState(false);
   const [confirmationModal, setConfirmationModal] = useState(false);
@@ -20,8 +23,24 @@ const ControlPanel = () => {
   const handleModalNope = () => {
     setConfirmationModal(false);
   };
+
+  if (userTell) {
+    const userTellPoint = document.querySelector(".usertell");
+    userTellPoint.classList.add("spawn");
+    console.log(userTellPoint);
+    setTimeout(() => {
+      userTellPoint.classList.remove("spawn");
+      userTellPoint.classList.add("despawn");
+      setTimeout(() => {
+        setUserTell("");
+        userTellPoint.classList.remove("despawn");
+      }, 260);
+    }, 5000);
+  }
   const fetchRankListFromAirTab = async () => {
     try {
+      setUserTell("FETCHing from Airtable");
+      setIsLoading(true);
       const res = await fetch(
         "https://api.airtable.com/v0/appea1L2EfUKfNpwi/RankLists",
         {
@@ -36,13 +55,17 @@ const ControlPanel = () => {
         const data = await res.json();
         setRankListFromAirTab(data);
         setSelectRank(true);
+        setUserTell("Successful Fetch");
       }
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
   };
   const getRankListToAirTab = async (target) => {
     try {
+      setUserTell("Getting from Airtable");
+      setIsLoading(true);
       console.log(`getting ${target}`);
       const res = await fetch(
         "https://api.airtable.com/v0/appea1L2EfUKfNpwi/RankLists/" + target,
@@ -66,10 +89,12 @@ const ControlPanel = () => {
       console.log(error);
     }
     resetSelector();
+    setIsLoading(false);
   };
   const delRankListFromAirTab = async (target) => {
     try {
-      console.log(`Deleting ${target}`);
+      setUserTell("Deleting...");
+      setIsLoading(true);
       const res = await fetch(
         "https://api.airtable.com/v0/appea1L2EfUKfNpwi/RankLists?records%5B%5D=" +
           target,
@@ -88,10 +113,12 @@ const ControlPanel = () => {
         setShowRank(false);
         setRankID("");
         setRankName("");
+        setUserTell("Deleted. There's no getting back.");
       }
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
   };
   useEffect(() => {
     console.log("Loading from AirTable");
@@ -121,7 +148,14 @@ const ControlPanel = () => {
         ) : (
           ""
         )}
-        <div className="display-6">CONTROL PANEL</div>
+        <div className="row g-0">
+          <div className="col-sm-6 display-6">CONTROL PANEL</div>
+          <div className="col-sm-5 usertell" style={{ alignSelf: "flex-end" }}>
+            {userTell}
+          </div>
+          <div className="col-sm-1"></div>
+        </div>
+
         <div className="row">
           <div>
             <select
@@ -150,12 +184,16 @@ const ControlPanel = () => {
               Delete List
             </Button>
           </div>
+          <div className="container">
+            {isLoading && (
+              <PacmanLoader color="#d63636" margin={4} speedMultiplier={3} />
+            )}
+          </div>
           <div>
             Rank List Preview:
             <h3 className="display-6">{rankName}</h3>
             {showRank &&
               myRanking.map((entry, idx) => {
-                console.log("1");
                 return (
                   <RListing
                     cPanel={true}
