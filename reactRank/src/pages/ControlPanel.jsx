@@ -27,14 +27,13 @@ const ControlPanel = () => {
   if (userTell) {
     const userTellPoint = document.querySelector(".usertell");
     userTellPoint.classList.add("spawn");
-    console.log(userTellPoint);
     setTimeout(() => {
       userTellPoint.classList.remove("spawn");
       userTellPoint.classList.add("despawn");
       setTimeout(() => {
         setUserTell("");
         userTellPoint.classList.remove("despawn");
-      }, 260);
+      }, 300);
     }, 5000);
   }
   const fetchRankListFromAirTab = async () => {

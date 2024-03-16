@@ -160,7 +160,10 @@ footer a:hover {
   border-bottom: 2px solid rgba(239, 239, 239, 0.653);
   background-color: rgba(79, 79, 79, 0.438);
 }
-
+.drop-zone {
+  transition-timing-function: ease-in-out;
+  transition-duration: 0.25s;
+}
 .ranking {
   background-color: rgba(30, 30, 30, 0.532);
   text-align: center;
@@ -181,13 +184,27 @@ footer a:hover {
   max-height: 100%;
   max-width: 100%;
   object-position: 0 -20px;
-  transition-duration: 10s;
+  transition-duration: 5.5s;
   transition-timing-function: ease-out;
 }
 
-.rankcontainer img:hover {
-  transform: scale(1.1);
-  object-position: 0 -50px;
+@media screen and (min-width: 800px) {
+  .rankcontainer img {
+    object-position: 0 -50px;
+  }
+  .rankcontainer img:hover {
+    transform: scale(1.01);
+    object-position: 0 -100px;
+  }
+}
+@media screen and (max-width: 799px) {
+  .rankcontainer img {
+    object-position: 0 -20px;
+  }
+  .rankcontainer img:hover {
+    transform: scale(1.05);
+    object-position: 0 0px;
+  }
 }
 .gametitle {
   font-size: 1.75vw;

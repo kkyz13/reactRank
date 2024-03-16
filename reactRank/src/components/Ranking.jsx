@@ -16,6 +16,7 @@ const Ranking = (props) => {
   const Ctx = useContext(Context);
 
   const clearList = () => {
+    //Reset page san Search
     Ctx.setMyRanking([]);
     rankTitleRef.current.value = "";
     setRankID("");
@@ -24,6 +25,7 @@ const Ranking = (props) => {
     setUserTell("Cleared, a fresh list is ready!");
   };
   if (userTell) {
+    //Message Clearer
     const userTellPoint = document.querySelector(".usertell");
     userTellPoint.classList.add("spawn");
     console.log(userTellPoint);
@@ -34,10 +36,16 @@ const Ranking = (props) => {
       setTimeout(() => {
         setUserTell("");
         userTellPoint.classList.remove("despawn");
-      }, 260);
+      }, 300);
     }, 5000);
   }
+  const resetSelector = () => {
+    //resets selector box to the first entry
+    const selectorTarget = document.querySelector(".selector");
+    selectorTarget.value = "default";
+  };
 
+  const dropZone = document.querySelector(".drop-zone");
   const fetchRankListFromAirTab = async () => {
     try {
       setIsLoading(true);
@@ -62,10 +70,6 @@ const Ranking = (props) => {
     setIsLoading(false);
   };
 
-  const resetSelector = () => {
-    const selectorTarget = document.querySelector(".selector");
-    selectorTarget.value = "default";
-  };
   const getRankListFromAirTab = async (target) => {
     try {
       setIsLoading(true);
@@ -183,9 +187,35 @@ const Ranking = (props) => {
     console.log("Loading from AirTable");
     fetchRankListFromAirTab();
   }, []);
-
+  ///////////////////////CODE/RENDERBLOCK////////////////////////////////////////
   return (
-    <div className="container">
+    <div
+      className="container drop-zone"
+      onDragOver={(e) => {
+        e.preventDefault();
+        dropZone.style.minHeight = "100%";
+        dropZone.style.background = "#111";
+      }}
+      onDragLeave={(e) => {
+        e.preventDefault();
+        dropZone.style.removeProperty("minHeight");
+        dropZone.style.removeProperty("background");
+      }}
+      onDrop={(e) => {
+        e.preventDefault();
+        dropZone.style.removeProperty("minHeight");
+        dropZone.style.removeProperty("background");
+        const data = e.dataTransfer.getData("mypayload");
+        if (data) {
+          const parsedData = JSON.parse(data);
+          console.log(parsedData);
+          Ctx.addToRank(parsedData);
+          Ctx.setShowRank(true);
+        } else {
+          console.log("No data available");
+        }
+      }}
+    >
       <div className="row">
         {" "}
         <div className="col-sm-6">
