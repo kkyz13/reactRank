@@ -85,7 +85,11 @@ footer a:hover {
 .selector:focus {
   border: 2px solid rgb(255, 196, 0);
 }
-
+@media screen and (max-width: 1200px) {
+  .selector {
+    width: 17vw;
+  }
+}
 .usertell {
   text-align: end;
   overflow: hidden;
@@ -188,7 +192,7 @@ footer a:hover {
   transition-timing-function: ease-out;
 }
 
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 996px) {
   .rankcontainer img {
     object-position: 0 -50px;
   }
@@ -197,7 +201,7 @@ footer a:hover {
     object-position: 0 -100px;
   }
 }
-@media screen and (max-width: 799px) {
+@media screen and (max-width: 995px) {
   .rankcontainer img {
     object-position: 0 -20px;
   }
