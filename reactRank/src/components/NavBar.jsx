@@ -12,7 +12,7 @@ const NavBar = () => {
               className={(navData) => (navData.isActive ? styles.active : "")}
               to="/ranker"
             >
-              Ranker
+              reactRank
             </NavLink>
           </li>
           <li>
