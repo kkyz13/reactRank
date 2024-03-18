@@ -6,6 +6,7 @@ import Context from "../context/Context";
 
 const Search = () => {
   const textInRef = useRef();
+
   const [showEmptyWarning, setShowEmptyWarning] = useState(false);
   const [results, setResults] = useState({ results: [] });
   const [searchTrigger, setSearchTrigger] = useState(false);
@@ -20,8 +21,15 @@ const Search = () => {
     setSearchTrigger(true);
   };
 
-  const messageOfTheDay = "Search for Vidyagames";
+  const tipsMessages = [
+    "Tip: Remember to save your list or it be lost forever",
+    "Tip: You can click and drag from this search to the list on the right!",
+    "Tip: Search exact names for better results!",
+    "Did You Know: Pacman originally was called Puck-Man, but was changed for obvious reasons",
+  ];
+  const [tipHint, setTipHint] = useState(tipsMessages[0]);
   const emptyWarning = "Search cannot be empty";
+
   //Search//
   const getGameData = async () => {
     if (textInRef.current.value !== "") {
@@ -63,7 +71,9 @@ const Search = () => {
           type="type"
           className="search"
           ref={textInRef}
-          placeholder={showEmptyWarning ? emptyWarning : messageOfTheDay}
+          placeholder={
+            showEmptyWarning ? emptyWarning : "Search for Vidyagames"
+          }
           onKeyDown={(e) => {
             if (e.code === "Enter") {
               getGameData();
@@ -87,7 +97,15 @@ const Search = () => {
         {searchTrigger ? (
           <div className="row">{`Results: ${results.count} found, returning the first 10 (Try to give exact titles for better results!)`}</div>
         ) : (
-          <small>Tip: Search for multiple games seperated with a comma!</small>
+          <small
+            onClick={() => {
+              setTipHint(
+                tipsMessages[Math.ceil(Math.random() * tipsMessages.length) - 1]
+              );
+            }}
+          >
+            {tipHint}
+          </small>
         )}
       </div>
 

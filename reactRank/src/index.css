@@ -47,7 +47,7 @@ footer a:hover {
 
 .search {
   outline: none;
-  width: 35%;
+  width: 45%;
   color: rgb(160, 255, 175);
   background-color: rgb(97, 97, 97);
   padding: 3px 3px;
@@ -64,7 +64,7 @@ footer a:hover {
 .search:focus {
   border-bottom: 2px solid rgb(100, 254, 123);
   background-color: rgba(0, 72, 11, 0.438);
-  width: 50%;
+  width: 60%;
 }
 .gamecontainer {
   position: relative;
@@ -219,7 +219,7 @@ footer a:hover {
   animation-name: upupandaway;
   animation-duration: 0.3s;
   animation-fill-mode: none;
-  animation-timing-function: cubic-bezier(0, 0.53, 0.08, 1.22);
+  animation-timing-function: ease-out;
 }
 
 @keyframes upupandaway {
@@ -235,7 +235,7 @@ footer a:hover {
   animation-name: yawadnapupu;
   animation-duration: 0.3s;
   animation-fill-mode: none;
-  animation-timing-function: cubic-bezier(0, 0.53, 0.08, 1.22);
+  animation-timing-function: ease-out;
   animation-delay: 25ms;
 }
 

@@ -20,40 +20,41 @@ const Display = () => {
   };
 
   const upRank = (idx) => {
-    console.log("going up");
     //give the up animation
     const movingUpAnim = document.querySelector(`.idx${idx}`);
     const movingDownAnim = document.querySelector(`.idx${idx - 1}`);
     movingUpAnim.classList.add("goingup");
     movingDownAnim.classList.add("goingdown");
-    //the actual array manupliation
-    const tempArr = [...myRanking];
-    const mover = myRanking[idx];
-    tempArr.splice(idx, 1);
-    tempArr.splice(idx - 1, 0, mover);
-    setMyRanking(tempArr);
+
     //remove the animation style when animation is done
     movingUpAnim.addEventListener("animationend", () => {
       movingUpAnim.classList.remove("goingup");
       movingDownAnim.classList.remove("goingdown");
+      //the actual array manupilation
+      const tempArr = [...myRanking];
+      const mover = myRanking[idx];
+      tempArr.splice(idx, 1);
+      tempArr.splice(idx - 1, 0, mover);
+      setMyRanking(tempArr);
     });
   };
   const downRank = (idx) => {
-    console.log("going down");
     //give the down animation
     const movingDownAnim = document.querySelector(`.idx${idx}`);
     const movingUpAnim = document.querySelector(`.idx${idx + 1}`);
     movingUpAnim.classList.add("goingup");
     movingDownAnim.classList.add("goingdown");
-    const tempArr = [...myRanking];
-    const mover = myRanking[idx];
-    tempArr.splice(idx, 1);
-    tempArr.splice(idx + 1, 0, mover);
-    setMyRanking(tempArr);
+
     //wait for the animation to end
     movingUpAnim.addEventListener("animationend", () => {
       movingUpAnim.classList.remove("goingup");
       movingDownAnim.classList.remove("goingdown");
+      //actual array manupilation
+      const tempArr = [...myRanking];
+      const mover = myRanking[idx];
+      tempArr.splice(idx, 1);
+      tempArr.splice(idx + 1, 0, mover);
+      setMyRanking(tempArr);
     });
   };
 
