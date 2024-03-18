@@ -91,6 +91,14 @@ const ControlPanel = () => {
     setIsLoading(false);
   };
   const delRankListFromAirTab = async (target) => {
+    const delAnimArr = document.querySelectorAll(".rankcontainer");
+    let delayer = 1;
+    let lastidx = 0;
+    // for (let entry of delAnimArr) {
+    //   delayer += 1;
+    //   entry.classList.add("deleteaway");
+    //   entry.style.animationDelay = `${delayer * 25}ms`;
+    // }
     try {
       setUserTell("Deleting...");
       setIsLoading(true);
@@ -106,13 +114,23 @@ const ControlPanel = () => {
         }
       );
       if (res.status === 200) {
-        console.log("successful DEL from Airtable");
-        const data = await res.json();
-        fetchRankListFromAirTab();
-        setShowRank(false);
-        setRankID("");
-        setRankName("");
-        setUserTell("Deleted. There's no getting back.");
+        for (let entry of delAnimArr) {
+          const LastEntry = delAnimArr.length - 1;
+          delayer += 1;
+          lastidx += 1;
+          entry.classList.add("deleteaway");
+          entry.style.animationDelay = `${delayer * 25}ms`;
+          if (lastidx === LastEntry) {
+            entry.addEventListener("animationend", () => {
+              console.log("successful DEL from Airtable");
+              fetchRankListFromAirTab();
+              setShowRank(false);
+              setRankID("");
+              setRankName("");
+              setUserTell("Deleted. There's no getting back.");
+            });
+          }
+        }
       }
     } catch (error) {
       console.log(error);
