@@ -6,7 +6,7 @@ const RListing = (props) => {
 
   return (
     <div
-      className="row g-0 rankcontainer"
+      className={`row g-0 rankcontainer idx${props.idx}`}
       onMouseEnter={() => {
         setControlDisplay(true);
       }}

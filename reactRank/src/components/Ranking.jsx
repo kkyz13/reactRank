@@ -8,6 +8,7 @@ const Ranking = (props) => {
   const [userTell, setUserTell] = useState("");
 
   const rankTitleRef = useRef();
+  const [isDragging, setIsDragging] = useState(false);
   const [emptyWarning, setEmptyWarning] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [rankID, setRankID] = useState();
@@ -46,6 +47,7 @@ const Ranking = (props) => {
   };
 
   const dropZone = document.querySelector(".drop-zone");
+  //targets the right container to put in stuff
   const fetchRankListFromAirTab = async () => {
     try {
       setIsLoading(true);
@@ -195,14 +197,17 @@ const Ranking = (props) => {
         e.preventDefault();
         dropZone.style.minHeight = "100%";
         dropZone.style.background = "#111";
+        setIsDragging(true);
       }}
       onDragLeave={(e) => {
         e.preventDefault();
         dropZone.style.removeProperty("minHeight");
         dropZone.style.removeProperty("background");
+        setIsDragging(false);
       }}
       onDrop={(e) => {
         e.preventDefault();
+        setIsDragging(false);
         dropZone.style.removeProperty("minHeight");
         dropZone.style.removeProperty("background");
         const data = e.dataTransfer.getData("mypayload");
@@ -219,7 +224,9 @@ const Ranking = (props) => {
       <div className="row">
         {" "}
         <div className="col-sm-6">
-          {!isLoading ? (
+          {isDragging ? (
+            <h5 className="display-6">Release to add to list</h5>
+          ) : !isLoading ? (
             <h5 className="display-6">Ranking</h5>
           ) : (
             <h5 className="display-6">Loading...</h5>

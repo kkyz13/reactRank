@@ -214,6 +214,38 @@ footer a:hover {
     object-position: 0 0px;
   }
 }
+
+.goingup {
+  animation-name: upupandaway;
+  animation-duration: 0.3s;
+  animation-fill-mode: none;
+  animation-timing-function: cubic-bezier(0, 0.53, 0.08, 1.22);
+}
+
+@keyframes upupandaway {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(-100px);
+  }
+}
+
+.goingdown {
+  animation-name: yawadnapupu;
+  animation-duration: 0.3s;
+  animation-fill-mode: none;
+  animation-timing-function: cubic-bezier(0, 0.53, 0.08, 1.22);
+}
+
+@keyframes yawadnapupu {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(100px);
+  }
+}
 .gametitle {
   font-size: 1.75vw;
   background-color: rgba(0, 0, 0, 0.445);

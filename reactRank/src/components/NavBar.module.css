@@ -46,7 +46,7 @@
   font-size: 1.5vw;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1024px) {
   .navbar a,
   .navbar a.active:hover,
   .navbar a:hover,
