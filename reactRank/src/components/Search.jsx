@@ -98,6 +98,7 @@ const Search = () => {
           <div className="row">{`Results: ${results.count} found, returning the first 10 (Try to give exact titles for better results!)`}</div>
         ) : (
           <small
+            style={{ cursor: "pointer" }}
             onClick={() => {
               setTipHint(
                 tipsMessages[Math.ceil(Math.random() * tipsMessages.length) - 1]
