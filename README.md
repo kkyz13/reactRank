@@ -12,7 +12,7 @@ Want a list you could look back and realized how much you changed/didn't change?
 ## Technologies
 VITE React, CSS, Javascript
 
-[React-Spinners by David Hu](https://www.davidhu.io/react-spinners/)
+Pac-man Loader from [React-Spinners by David Hu](https://www.davidhu.io/react-spinners/)
 ## How to Use
 ![Sequence 01_1](https://github.com/kkyz13/reactRank/assets/155720573/a3a83c1f-3723-4d83-8884-d602751ad4ed)
 
@@ -24,8 +24,7 @@ You can also click and drag from the _left_ search results to the **right** list
 ![Sequence 01_2](https://github.com/kkyz13/reactRank/assets/155720573/be6e2676-ba02-4133-a134-9d08ad416bf5)
 Use the arrow controls inside the ranked entry to move it up and down.
 
-![saving](https://github.com/kkyz13/reactRank/assets/155720573/cbb468c7-a22a-466d-81ae-8eb23af3656c)
-Give your list a name _(this is required!)_ and hit save!
+**Give your list a name _(this is required!)_ and hit save!** 
 
 You can update it with the update button, and duplicate would create a duplicate list.
 
