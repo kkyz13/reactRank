@@ -21,7 +21,7 @@ After searching for your video game, you can click the "add to current list" but
 ![Sequence 01](https://github.com/kkyz13/reactRank/assets/155720573/84ee5f8a-1d0d-41a6-b8cf-0922329060cf)
 You can also click and drag from the _left_ search results to the **right** list area.
 
-![going up_2](https://github.com/kkyz13/reactRank/assets/155720573/447dafb8-e0a4-4b3b-8049-8567be825d23)
+![Sequence 01_2](https://github.com/kkyz13/reactRank/assets/155720573/be6e2676-ba02-4133-a134-9d08ad416bf5)
 Use the arrow controls inside the ranked entry to move it up and down.
 
 ![saving](https://github.com/kkyz13/reactRank/assets/155720573/cbb468c7-a22a-466d-81ae-8eb23af3656c)
