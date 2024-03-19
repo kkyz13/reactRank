@@ -28,7 +28,8 @@ Use the arrow controls inside the ranked entry to move it up and down.
 
 You can update it with the update button, and duplicate would create a duplicate list.
 
-![delalist](https://github.com/kkyz13/reactRank/assets/155720573/58f7fc2c-f87d-4aac-8d0e-f3522613f2f0)
+<img width="900" alt="image" src="https://github.com/kkyz13/reactRank/assets/155720573/d94cca1e-03d6-4a28-ad9a-40340a46043c">
+
 To delete a list, you need to go to the Control Panel page to delete. Deleting is not undoable.
 
 
