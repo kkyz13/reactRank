@@ -50,14 +50,15 @@ const ControlPanel = () => {
         }
       );
       if (res.status === 200) {
-        console.log("successful fetch from Airtable");
+        // console.log("successful fetch from Airtable");
         const data = await res.json();
         setRankListFromAirTab(data);
         setSelectRank(true);
         setUserTell("Successful Fetch");
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      setUserTell("Something wrong happaned. Please Refresh");
     }
     setIsLoading(false);
   };
@@ -65,7 +66,7 @@ const ControlPanel = () => {
     try {
       setUserTell("Getting from Airtable");
       setIsLoading(true);
-      console.log(`getting ${target}`);
+      // console.log(`getting ${target}`);
       const res = await fetch(
         "https://api.airtable.com/v0/appea1L2EfUKfNpwi/RankLists/" + target,
         {
@@ -77,7 +78,7 @@ const ControlPanel = () => {
         }
       );
       if (res.status === 200) {
-        console.log("successful GET from Airtable");
+        // console.log("successful GET from Airtable");
         const data = await res.json();
         setRankID(data.id);
         setRankName(data.fields.Name);
@@ -85,7 +86,8 @@ const ControlPanel = () => {
         setShowRank(true);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      setUserTell("Something wrong happaned. Please Refresh");
     }
     resetSelector();
     setIsLoading(false);
@@ -122,7 +124,7 @@ const ControlPanel = () => {
           entry.style.animationDelay = `${delayer * 25}ms`;
           if (lastidx === LastEntry) {
             entry.addEventListener("animationend", () => {
-              console.log("successful DEL from Airtable");
+              // console.log("successful DEL from Airtable");
               fetchRankListFromAirTab();
               setShowRank(false);
               setRankID("");
@@ -133,12 +135,13 @@ const ControlPanel = () => {
         }
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      setUserTell("Something wrong happaned. Please Refresh");
     }
     setIsLoading(false);
   };
   useEffect(() => {
-    console.log("Loading from AirTable");
+    // console.log("Loading from AirTable");
     fetchRankListFromAirTab();
   }, []);
 

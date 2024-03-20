@@ -29,9 +29,9 @@ const Ranking = (props) => {
     //Message Clearer
     const userTellPoint = document.querySelector(".usertell");
     userTellPoint.classList.add("spawn");
-    console.log(userTellPoint);
+    // console.log(userTellPoint);
     setTimeout(() => {
-      console.log("despawn");
+      // console.log("despawn");
       userTellPoint.classList.remove("spawn");
       userTellPoint.classList.add("despawn");
       setTimeout(() => {
@@ -61,13 +61,14 @@ const Ranking = (props) => {
         }
       );
       if (res.status === 200) {
-        console.log("successful fetch from Airtable");
+        // console.log("successful fetch from Airtable");
         const data = await res.json();
         setRankListFromAirTab(data);
         setSelectRank(true);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      setUserTell("Something wrong happened. Please Refresh");
     }
     setIsLoading(false);
   };
@@ -75,7 +76,7 @@ const Ranking = (props) => {
   const getRankListFromAirTab = async (target) => {
     try {
       setIsLoading(true);
-      console.log(`getting ${target}`);
+      // console.log(`getting ${target}`);
       const res = await fetch(
         "https://api.airtable.com/v0/appea1L2EfUKfNpwi/RankLists/" + target,
         {
@@ -87,7 +88,7 @@ const Ranking = (props) => {
         }
       );
       if (res.status === 200) {
-        console.log("successful GET from Airtable");
+        // console.log("successful GET from Airtable");
         const data = await res.json();
         Ctx.setMyRanking(JSON.parse(data.fields.Ranking)); //Airtable returns nested items as stringified JSON
         setRankID(data.id);
@@ -95,7 +96,8 @@ const Ranking = (props) => {
         rankTitleRef.current.value = data.fields.Name;
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      setUserTell("Something wrong happened. Please Refresh");
     }
     resetSelector();
     setIsLoading(false);
@@ -103,7 +105,7 @@ const Ranking = (props) => {
 
   const putRankListToAirTab = async (target) => {
     try {
-      console.log(`putting ${target}`);
+      // console.log(`putting ${target}`);
       setUserTell("Saving...");
       const res = await fetch(
         "https://api.airtable.com/v0/appea1L2EfUKfNpwi/RankLists/" + target,
@@ -122,7 +124,7 @@ const Ranking = (props) => {
         }
       );
       if (res.status === 200) {
-        console.log("successful PUT from Airtable");
+        // console.log("successful PUT from Airtable");
         const data = await res.json();
         // console.log(typeof data);
         Ctx.setMyRanking(JSON.parse(data.fields.Ranking)); //Airtable returns nested items as stringified JSON
@@ -133,7 +135,8 @@ const Ranking = (props) => {
         setUserTell("Saved! Give it a moment for updates to be reflected");
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      setUserTell("Something wrong happened. Please Refresh");
     }
   };
 
@@ -141,7 +144,7 @@ const Ranking = (props) => {
     if (rankTitleRef.current.value !== "") {
       if (Ctx.myRanking.length !== 0) {
         try {
-          console.log("Trying to POST to Airtable");
+          // console.log("Trying to POST to Airtable");
           setUserTell("Saving...");
 
           const res = await fetch(
@@ -165,16 +168,17 @@ const Ranking = (props) => {
             }
           );
           if (res.status === 200) {
-            console.log("successful POST from Airtable");
+            // console.log("successful POST from Airtable");
             const data = await res.json();
             setRankID(data.records[0].id);
-            console.log(data);
+            // console.log(data);
             setSelectRank(false);
             fetchRankListFromAirTab();
             setUserTell("Saved! Give it a moment for updates to be reflected");
           }
         } catch (error) {
-          console.log(error);
+          // console.log(error);
+          setUserTell("Something wrong happened. Please Refresh");
         }
       } else {
         setUserTell("You cannot save an empty list");
@@ -186,7 +190,7 @@ const Ranking = (props) => {
   };
 
   useEffect(() => {
-    console.log("Loading from AirTable");
+    // console.log("Loading from AirTable");
     fetchRankListFromAirTab();
   }, []);
   ///////////////////////CODE/RENDERBLOCK////////////////////////////////////////
@@ -213,11 +217,11 @@ const Ranking = (props) => {
         const data = e.dataTransfer.getData("mypayload");
         if (data) {
           const parsedData = JSON.parse(data);
-          console.log(parsedData);
+          // console.log(parsedData);
           Ctx.addToRank(parsedData);
           Ctx.setShowRank(true);
         } else {
-          console.log("No data available");
+          setUserTell("Drag Error, or something horrible happened");
         }
       }}
     >

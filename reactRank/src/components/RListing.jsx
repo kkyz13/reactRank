@@ -17,7 +17,7 @@ const RListing = (props) => {
       <img
         src={props.image}
         onDoubleClick={() => {
-          console.log(`${props.name}`);
+          // console.log(`${props.name}`);
         }}
       ></img>
       <h1 className="gametitle">{props.name}</h1>

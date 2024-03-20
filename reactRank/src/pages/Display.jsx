@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Search from "../components/Search";
 import Context from "../context/Context";
 import Ranking from "../components/Ranking";

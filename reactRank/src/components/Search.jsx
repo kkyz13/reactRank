@@ -13,7 +13,7 @@ const Search = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const getPsudoGameData = async () => {
-    console.log("DEBUGGER SEARCH");
+    // console.log("DEBUGGER SEARCH");
 
     const data = myJson;
 
@@ -41,13 +41,15 @@ const Search = () => {
             textInRef.current.value
         );
         if (res.status === 200) {
-          console.log("successful fetch");
+          // console.log("successful fetch");
           const data = await res.json();
           setResults(data);
           setSearchTrigger(true);
         }
       } catch (error) {
-        console.log(error.message);
+        // console.log(error.message);
+        setUserTell("Search failed, API probably died")
+
       }
     } else {
       setShowEmptyWarning(true);
