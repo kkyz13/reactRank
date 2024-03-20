@@ -3,11 +3,12 @@ import RListing from "./RListing";
 import Context from "../context/Context";
 import Button from "./Button";
 import { PacmanLoader } from "react-spinners";
-
+import ShareModal from "./ShareModal";
 const Ranking = (props) => {
   const [userTell, setUserTell] = useState("");
 
   const rankTitleRef = useRef();
+  const [sharingModal, setSharingModal] = useState(false);
   const [emptyWarning, setEmptyWarning] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [rankID, setRankID] = useState();
@@ -15,6 +16,9 @@ const Ranking = (props) => {
   const [selectRank, setSelectRank] = useState(false);
   const Ctx = useContext(Context);
 
+  const handleModalNope = () => {
+    setSharingModal(false);
+  };
   const clearList = () => {
     //Reset page san Search
     Ctx.setMyRanking([]);
@@ -187,6 +191,7 @@ const Ranking = (props) => {
     console.log("Loading from AirTable");
     fetchRankListFromAirTab();
   }, []);
+
   ///////////////////////CODE/RENDERBLOCK////////////////////////////////////////
   return (
     <div
@@ -216,6 +221,13 @@ const Ranking = (props) => {
         }
       }}
     >
+      {sharingModal && (
+        <ShareModal
+          dismiss={handleModalNope}
+          title={rankTitleRef.current.value}
+          myRanking={Ctx.myRanking}
+        ></ShareModal>
+      )}
       <div className="row">
         {" "}
         <div className="col-sm-6">
@@ -294,6 +306,14 @@ const Ranking = (props) => {
                 }}
               >
                 {rankID ? "Duplicate" : "Save"}
+              </Button>
+              <Button
+                className="btn btn-primary btn-sm"
+                trigger={() => {
+                  setSharingModal(true);
+                }}
+              >
+                Share
               </Button>
             </div>
           </div>
