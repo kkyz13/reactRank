@@ -1,6 +1,6 @@
 
 # reactRank 
- A Vite React App by Kenneth Koh
+ A Vite React App by Kenneth Koh (Live Link in the Project Tracker to not expose link publicly)
 ## For General Assembly SEI-49
 Wanted to brag and share your favourite videogames? Wanted to present those favourite games in a really cool looking list?
 Want a list you could look back and realized how much you changed/didn't change? 
