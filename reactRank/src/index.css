@@ -10,7 +10,7 @@ html {
 
 body {
   margin: 0;
-  background-color: rgb(57, 57, 57);
+  background-color: rgb(76, 28, 28);
   color: whitesmoke;
 }
 
@@ -45,6 +45,20 @@ footer a:hover {
   align-items: center;
 }
 
+.logininput {
+  outline: none;
+  width: 100%;
+  color: rgb(160, 255, 175);
+  background-color: rgb(97, 97, 97);
+  padding: 3px 3px;
+  border: none;
+  border-bottom: 2px solid rgb(125, 125, 125);
+  transition-duration: 0.3s;
+}
+.logininput:focus {
+  border-bottom: 2px solid rgb(100, 254, 123);
+  background-color: rgba(0, 72, 11, 0.438);
+}
 .search {
   outline: none;
   width: 45%;

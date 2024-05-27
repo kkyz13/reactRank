@@ -58,7 +58,7 @@ const ControlPanel = () => {
       }
     } catch (error) {
       // console.log(error);
-      setUserTell("Something wrong happaned. Please Refresh");
+      setUserTell("Something wrong happened. Please Refresh");
     }
     setIsLoading(false);
   };
@@ -136,7 +136,7 @@ const ControlPanel = () => {
       }
     } catch (error) {
       // console.log(error);
-      setUserTell("Something wrong happaned. Please Refresh");
+      setUserTell("Something wrong happened. Please Refresh");
     }
     setIsLoading(false);
   };
