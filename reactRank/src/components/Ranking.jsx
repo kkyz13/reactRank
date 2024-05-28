@@ -13,7 +13,7 @@ const Ranking = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [rankID, setRankID] = useState();
   const [rankListFromAirTab, setRankListFromAirTab] = useState({ records: [] });
-  const [rankList, setRankList] = useState([])
+  const [rankList, setRankList] = useState([]);
   const [selectRank, setSelectRank] = useState(false);
   const Ctx = useContext(Context);
 
@@ -75,22 +75,17 @@ const Ranking = (props) => {
   };
 
   const fetchRankList = async () => {
-    console.log(Ctx.accessToken)
     try {
       setIsLoading(true);
-      const res = await fetch(
-        import.meta.env.VITE_MYSERV+"/rank/get",
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: 'Bearer '+Ctx.accessToken
-          },
-        }
-      );
+      const res = await fetch(import.meta.env.VITE_MYSERV + "/rank/get", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + Ctx.accessToken,
+        },
+      });
       if (res.status === 200) {
         console.log("successful fetch");
         const data = await res.json();
-        console.log(data)
         setRankList(data);
         setSelectRank(true);
       }
@@ -105,20 +100,21 @@ const Ranking = (props) => {
       setIsLoading(true);
       console.log(`getting ${id}`);
       const res = await fetch(
-        import.meta.env.VITE_MYSERV+"/rank/get/q/?id="+ id,
+        import.meta.env.VITE_MYSERV + "/rank/get/q/?id=" + id,
         {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: 'Bearer '+Ctx.accessToken
+            Authorization: "Bearer " + Ctx.accessToken,
           },
         }
       );
       if (res.status === 200) {
         // console.log("successful GET from Airtable");
         const data = await res.json();
+        console.log(data);
         Ctx.setMyRanking(data.ranking);
-        setRankID(data.id);
+        setRankID(data._id);
         Ctx.setShowRank(true);
         rankTitleRef.current.value = data.title;
       }
@@ -135,17 +131,17 @@ const Ranking = (props) => {
       // console.log(`putting ${target}`);
       setUserTell("Saving...");
       const res = await fetch(
-        "https://api.airtable.com/v0/appea1L2EfUKfNpwi/RankLists/" + target,
+        import.meta.env.VITE_MYSERV + "/rank/update/" + rankID,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            Authorization: import.meta.env.VITE_AIRTABLE,
+            Authorization: "Bearer " + Ctx.accessToken,
           },
           body: JSON.stringify({
             fields: {
-              Name: rankTitleRef.current.value,
-              Ranking: JSON.stringify(props.myRanking),
+              title: rankTitleRef.current.value,
+              ranking: props.myRanking,
             },
           }),
         }
@@ -154,10 +150,10 @@ const Ranking = (props) => {
         // console.log("successful PUT from Airtable");
         const data = await res.json();
         // console.log(typeof data);
-        Ctx.setMyRanking(JSON.parse(data.fields.Ranking)); //Airtable returns nested items as stringified JSON
-        setRankID(data.id);
+        Ctx.setMyRanking(data.ranking); //Airtable returns nested items as stringified JSON
+        setRankID(data._id);
         Ctx.setShowRank(true);
-        rankTitleRef.current.value = data.fields.Name;
+        rankTitleRef.current.value = data.title;
         fetchRankListFromAirTab();
         setUserTell("Saved! Give it a moment for updates to be reflected");
       }
@@ -171,37 +167,26 @@ const Ranking = (props) => {
     if (rankTitleRef.current.value !== "") {
       if (Ctx.myRanking.length !== 0) {
         try {
-          // console.log("Trying to POST to Airtable");
           setUserTell("Saving...");
-
-          const res = await fetch(
-            "https://api.airtable.com/v0/appea1L2EfUKfNpwi/RankLists",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: import.meta.env.VITE_AIRTABLE,
-              },
-              body: JSON.stringify({
-                records: [
-                  {
-                    fields: {
-                      Name: rankTitleRef.current.value,
-                      Ranking: JSON.stringify(props.myRanking),
-                    },
-                  },
-                ],
-              }),
-            }
-          );
+          const res = await fetch(import.meta.env.VITE_MYSERV + "/rank/add", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + Ctx.accessToken,
+            },
+            body: JSON.stringify({
+              title: rankTitleRef.current.value,
+              ranking: props.myRanking,
+            }),
+          });
           if (res.status === 200) {
             // console.log("successful POST from Airtable");
             const data = await res.json();
-            setRankID(data.records[0].id);
-            // console.log(data);
+            console.log(data);
+            setRankID(data.msg.id);
             setSelectRank(false);
-            fetchRankListFromAirTab();
-            setUserTell("Saved! Give it a moment for updates to be reflected");
+            fetchRankList();
+            setUserTell("Saved!");
           }
         } catch (error) {
           // console.log(error);
@@ -281,7 +266,6 @@ const Ranking = (props) => {
           <select
             className="form-select-sm selector"
             onChange={(e) => {
-              
               getRankListFromAirTab(e.target.value);
             }}
           >
@@ -344,7 +328,8 @@ const Ranking = (props) => {
             </div>
           </div>
 
-          {Ctx.showRank && props.myRanking?.length > 0 &&
+          {Ctx.showRank &&
+            props.myRanking?.length > 0 &&
             props.myRanking.map((entry, idx) => {
               return (
                 <RListing
