@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Search from "../components/Search";
 import Context from "../context/Context";
 import Ranking from "../components/Ranking";
+import AppContext from "../context/AppContext";
 
 const Display = () => {
+  const Ctx = useContext(AppContext)
   const [myRanking, setMyRanking] = useState([]);
   const [showRank, setShowRank] = useState(false);
 
@@ -65,6 +67,7 @@ const Display = () => {
         <Context.Provider
           value={{ addToRank, showRank, setShowRank, myRanking, setMyRanking }}
         >
+          <div> User Token: {Ctx.accessToken}</div>
           <div className="col-sm-5">
             <Search></Search>
           </div>
