@@ -7,9 +7,11 @@ import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
 const Display = () => {
-  const ctx = useContext(AppContext)
+  const AppCtx = useContext(AppContext)
+  const [accessToken, setAccessToken] = useState('')
   const [myRanking, setMyRanking] = useState([]);
   const [showRank, setShowRank] = useState(false);
+  const [fetchData, setFetchData] = useState(false)
   const [user, setUser] = useState('');
   const navigate = useNavigate()
   const loginCheck = () => {
@@ -17,9 +19,9 @@ const Display = () => {
     if (loggedInUser) {
       const token = JSON.parse(loggedInUser);
       const decoded = jwtDecode(loggedInUser);
-      console.log(decoded);  
       setUser(decoded.username)
-      ctx.setAccessToken(token.access);
+      setAccessToken(token.access);
+      setFetchData(true)
       // userCtx.setRefreshToken(token.refresh);}
     } else {
       alert("Something went wrong, dropping back to login");
@@ -31,7 +33,10 @@ const Display = () => {
     loginCheck();
   }, []);
 
-
+useEffect(()=>{
+  console.log(accessToken)
+  console.log(user)
+},[fetchData])
   const addToRank = (entry) => {
     setMyRanking((prevArr) => {
       return [...prevArr, entry];
@@ -88,7 +93,7 @@ const Display = () => {
       <div className="row">
         <h3 className="small">Welcome, {user} </h3>
         <Context.Provider
-          value={{ addToRank, showRank, setShowRank, myRanking, setMyRanking }}
+          value={{accessToken, addToRank, showRank, setShowRank, myRanking, setMyRanking }}
         >
           <div className="col-sm-5">
             <Search></Search>
