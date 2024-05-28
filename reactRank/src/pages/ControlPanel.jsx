@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Button from "../components/Button";
 import RListing from "../components/RListing";
 import Modal from "../components/Modal";
 import ErrorModal from "../components/ErrorModal";
 import { PacmanLoader } from "react-spinners";
+import { useNavigate } from "react-router-dom";
+import AppContext from "../context/AppContext";
 
 const ControlPanel = () => {
   const [rankID, setRankID] = useState();
@@ -15,6 +17,9 @@ const ControlPanel = () => {
   const [confirmationModal, setConfirmationModal] = useState(false);
   const [rankListFromAirTab, setRankListFromAirTab] = useState({ records: [] });
   const [myRanking, setMyRanking] = useState([]);
+  const navigate = useNavigate();
+  const userCtx = useContext(AppContext)
+  
 
   const resetSelector = () => {
     const selectorTarget = document.querySelector(".selector");
@@ -140,6 +145,12 @@ const ControlPanel = () => {
     }
     setIsLoading(false);
   };
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    userCtx.setAccessToken("")
+    navigate("/login");
+    
+  }
   useEffect(() => {
     // console.log("Loading from AirTable");
     fetchRankListFromAirTab();
@@ -203,6 +214,7 @@ const ControlPanel = () => {
             >
               Delete List
             </Button>
+            <button className="mx-1 btn btn-dark" onClick={()=>{handleLogout()}}>Logout</button>
           </div>
           <div className="container">
             {isLoading && (

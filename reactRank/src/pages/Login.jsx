@@ -39,7 +39,7 @@ if (response.ok){
   console.log("successful login")
   const data = await response.json();
   console.log(data)
-  Ctx.setAccessToken(data.access);
+  localStorage.setItem("user", JSON.stringify(data));
   navigate("/ranker")
 }
 } catch (error) {
