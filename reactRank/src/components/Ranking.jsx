@@ -13,6 +13,7 @@ const Ranking = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [rankID, setRankID] = useState();
   const [rankListFromAirTab, setRankListFromAirTab] = useState({ records: [] });
+  const [rankList, setRankList] = useState([]);
   const [selectRank, setSelectRank] = useState(false);
   const Ctx = useContext(Context);
 
@@ -73,27 +74,49 @@ const Ranking = (props) => {
     setIsLoading(false);
   };
 
-  const getRankListFromAirTab = async (target) => {
+  const fetchRankList = async () => {
     try {
       setIsLoading(true);
-      // console.log(`getting ${target}`);
+      const res = await fetch(import.meta.env.VITE_MYSERV + "/rank/get", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + Ctx.accessToken,
+        },
+      });
+      if (res.status === 200) {
+        // console.log("successful fetch");
+        const data = await res.json();
+        setRankList(data);
+        setSelectRank(true);
+      }
+    } catch (error) {
+      // console.log(error);
+      setUserTell("Something wrong happened. Please Refresh");
+    }
+    setIsLoading(false);
+  };
+  const getRankListFromAirTab = async (id) => {
+    try {
+      setIsLoading(true);
+      // console.log(`getting ${id}`);
       const res = await fetch(
-        "https://api.airtable.com/v0/appea1L2EfUKfNpwi/RankLists/" + target,
+        import.meta.env.VITE_MYSERV + "/rank/get/q/?id=" + id,
         {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: import.meta.env.VITE_AIRTABLE,
+            Authorization: "Bearer " + Ctx.accessToken,
           },
         }
       );
       if (res.status === 200) {
         // console.log("successful GET from Airtable");
         const data = await res.json();
-        Ctx.setMyRanking(JSON.parse(data.fields.Ranking)); //Airtable returns nested items as stringified JSON
-        setRankID(data.id);
+        // console.log(data);
+        Ctx.setMyRanking(data.ranking);
+        setRankID(data._id);
         Ctx.setShowRank(true);
-        rankTitleRef.current.value = data.fields.Name;
+        rankTitleRef.current.value = data.title;
       }
     } catch (error) {
       // console.log(error);
@@ -108,30 +131,28 @@ const Ranking = (props) => {
       // console.log(`putting ${target}`);
       setUserTell("Saving...");
       const res = await fetch(
-        "https://api.airtable.com/v0/appea1L2EfUKfNpwi/RankLists/" + target,
+        import.meta.env.VITE_MYSERV + "/rank/update/" + rankID,
         {
-          method: "PUT",
+          method: "PATCH",
           headers: {
             "Content-Type": "application/json",
-            Authorization: import.meta.env.VITE_AIRTABLE,
+            Authorization: "Bearer " + Ctx.accessToken,
           },
           body: JSON.stringify({
-            fields: {
-              Name: rankTitleRef.current.value,
-              Ranking: JSON.stringify(props.myRanking),
-            },
+            title: rankTitleRef.current.value,
+            ranking: props.myRanking,
           }),
         }
       );
       if (res.status === 200) {
         // console.log("successful PUT from Airtable");
         const data = await res.json();
-        // console.log(typeof data);
-        Ctx.setMyRanking(JSON.parse(data.fields.Ranking)); //Airtable returns nested items as stringified JSON
-        setRankID(data.id);
+        // console.log(data);
+        Ctx.setMyRanking(data.msg.ranking); //Airtable returns nested items as stringified JSON
+        setRankID(data.msg._id);
         Ctx.setShowRank(true);
-        rankTitleRef.current.value = data.fields.Name;
-        fetchRankListFromAirTab();
+        rankTitleRef.current.value = data.msg.title;
+        fetchRankList();
         setUserTell("Saved! Give it a moment for updates to be reflected");
       }
     } catch (error) {
@@ -144,37 +165,26 @@ const Ranking = (props) => {
     if (rankTitleRef.current.value !== "") {
       if (Ctx.myRanking.length !== 0) {
         try {
-          // console.log("Trying to POST to Airtable");
           setUserTell("Saving...");
-
-          const res = await fetch(
-            "https://api.airtable.com/v0/appea1L2EfUKfNpwi/RankLists",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: import.meta.env.VITE_AIRTABLE,
-              },
-              body: JSON.stringify({
-                records: [
-                  {
-                    fields: {
-                      Name: rankTitleRef.current.value,
-                      Ranking: JSON.stringify(props.myRanking),
-                    },
-                  },
-                ],
-              }),
-            }
-          );
+          const res = await fetch(import.meta.env.VITE_MYSERV + "/rank/add", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + Ctx.accessToken,
+            },
+            body: JSON.stringify({
+              title: rankTitleRef.current.value,
+              ranking: props.myRanking,
+            }),
+          });
           if (res.status === 200) {
             // console.log("successful POST from Airtable");
             const data = await res.json();
-            setRankID(data.records[0].id);
             // console.log(data);
+            setRankID(data.msg._id);
             setSelectRank(false);
-            fetchRankListFromAirTab();
-            setUserTell("Saved! Give it a moment for updates to be reflected");
+            fetchRankList();
+            setUserTell("Saved!");
           }
         } catch (error) {
           // console.log(error);
@@ -189,10 +199,17 @@ const Ranking = (props) => {
     }
   };
 
+  // useEffect(() => {
+  //   // console.log("Loading from AirTable");
+  //   // fetchRankListFromAirTab();
+  //   fetchRankList()
+  // }, []);
+
   useEffect(() => {
-    // console.log("Loading from AirTable");
-    fetchRankListFromAirTab();
-  }, []);
+    if (Ctx.accessToken) {
+      fetchRankList();
+    }
+  }, [Ctx.accessToken]);
   ///////////////////////CODE/RENDERBLOCK////////////////////////////////////////
   return (
     <div
@@ -252,10 +269,10 @@ const Ranking = (props) => {
           >
             <option value={"default"}>Open existing rankings:</option>
             {selectRank ? (
-              rankListFromAirTab.records.map((entry, idx) => {
+              rankList.map((entry, idx) => {
                 return (
-                  <option key={idx} value={entry.id}>
-                    {entry.fields.Name}
+                  <option key={idx} value={entry._id}>
+                    {entry.title}
                   </option>
                 );
               })
@@ -310,6 +327,7 @@ const Ranking = (props) => {
           </div>
 
           {Ctx.showRank &&
+            props.myRanking?.length > 0 &&
             props.myRanking.map((entry, idx) => {
               return (
                 <RListing
