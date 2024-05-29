@@ -33,6 +33,9 @@ const Login = () => {
   };
   const handleLogin = async () => {
     try {
+      setError(
+        "Attempting to login, this may take up to a minute (the server needs to spin up)"
+      );
       const response = await fetch(
         import.meta.env.VITE_MYSERV + "/auth/login",
         {
