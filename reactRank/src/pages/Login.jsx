@@ -16,12 +16,13 @@ const Login = () => {
 
   const healthCheck = async () => {
     try {
+      setError("please wait, server is spinning up");
       const response = await fetch(
         import.meta.env.VITE_MYSERV + "/healthcheck"
       );
       if (response.ok) {
-        console.log(response);
-        console.log("Server is up and running");
+        // console.log(response);
+        setError("Server is up and running");
       }
     } catch (error) {
       console.log(error);
@@ -65,6 +66,7 @@ const Login = () => {
   };
   const handleRegister = async () => {
     try {
+      setError("Registering, Please wait the server might need to spin up");
       const response = await fetch(
         import.meta.env.VITE_MYSERV + "/auth/register",
         {
@@ -88,7 +90,7 @@ const Login = () => {
       } else {
         const errorData = await response.json();
         console.log(errorData);
-        setError("Registration failed: " + errorData.msg);
+        setError("Registration failed");
       }
     } catch (error) {
       console.log(error);
@@ -103,13 +105,14 @@ const Login = () => {
     <div className="centered container flex-column border border-success-subtle p-3 rounded-5">
       <h6 className="display-6">Welcome to reactRank</h6>
       <small> Rank games, powered by Rawg.io</small>
-      {/* <button
+      <button
+        className="btn btn-secondary m-3"
         onClick={() => {
           healthCheck();
         }}
       >
-        debug
-      </button> */}
+        Hit this button first to wake up the server
+      </button>
       <div className="d-flex flex-column p-3">
         {!showRegister ? (
           <>
