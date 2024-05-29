@@ -84,7 +84,7 @@ const Ranking = (props) => {
         },
       });
       if (res.status === 200) {
-        console.log("successful fetch");
+        // console.log("successful fetch");
         const data = await res.json();
         setRankList(data);
         setSelectRank(true);
@@ -98,7 +98,7 @@ const Ranking = (props) => {
   const getRankListFromAirTab = async (id) => {
     try {
       setIsLoading(true);
-      console.log(`getting ${id}`);
+      // console.log(`getting ${id}`);
       const res = await fetch(
         import.meta.env.VITE_MYSERV + "/rank/get/q/?id=" + id,
         {
@@ -112,14 +112,14 @@ const Ranking = (props) => {
       if (res.status === 200) {
         // console.log("successful GET from Airtable");
         const data = await res.json();
-        console.log(data);
+        // console.log(data);
         Ctx.setMyRanking(data.ranking);
         setRankID(data._id);
         Ctx.setShowRank(true);
         rankTitleRef.current.value = data.title;
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       setUserTell("Something wrong happened. Please Refresh");
     }
     resetSelector();
@@ -147,7 +147,7 @@ const Ranking = (props) => {
       if (res.status === 200) {
         // console.log("successful PUT from Airtable");
         const data = await res.json();
-        console.log(data);
+        // console.log(data);
         Ctx.setMyRanking(data.msg.ranking); //Airtable returns nested items as stringified JSON
         setRankID(data.msg._id);
         Ctx.setShowRank(true);
@@ -180,8 +180,8 @@ const Ranking = (props) => {
           if (res.status === 200) {
             // console.log("successful POST from Airtable");
             const data = await res.json();
-            console.log(data);
-            setRankID(data.msg.id);
+            // console.log(data);
+            setRankID(data.msg._id);
             setSelectRank(false);
             fetchRankList();
             setUserTell("Saved!");

@@ -73,7 +73,11 @@ const ControlPanel = () => {
         const data = await res.json();
         setRankListFromAirTab(data);
         setSelectRank(true);
-        setUserTell("Successful Fetch");
+        if (data.length !== 0) {
+          setUserTell("Successful Fetch");
+        } else {
+          setUserTell("No Data Found");
+        }
       }
     } catch (error) {
       console.log(error);
@@ -169,12 +173,8 @@ const ControlPanel = () => {
   }, []);
 
   useEffect(() => {
-    console.log(accessToken);
     fetchRankListFromAirTab();
   }, [accessToken]);
-  useEffect(() => {
-    console.log(myRanking);
-  }, [myRanking]);
 
   return (
     <>
@@ -224,6 +224,8 @@ const ControlPanel = () => {
                     </option>
                   );
                 })
+              ) : rankListFromAirTab.length == 0 ? (
+                <option>You haven't created anything!</option>
               ) : (
                 <option>loading...</option>
               )}

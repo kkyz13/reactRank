@@ -10,7 +10,7 @@ html {
 
 body {
   margin: 0;
-  background-color: rgb(76, 28, 28);
+  background-color: rgb(65, 65, 65);
   color: whitesmoke;
 }
 
@@ -62,7 +62,7 @@ footer a:hover {
 .search {
   outline: none;
   width: 45%;
-  color: rgb(160, 255, 175);
+  color: rgb(255, 160, 160);
   background-color: rgb(97, 97, 97);
   padding: 3px 3px;
   border: none;

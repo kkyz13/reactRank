@@ -33,9 +33,6 @@ const Display = () => {
     loginCheck();
   }, []);
 
-  useEffect(() => {
-    console.log(user);
-  }, [fetchData]);
   const addToRank = (entry) => {
     setMyRanking((prevArr) => {
       return [...prevArr, entry];
