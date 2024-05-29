@@ -13,7 +13,6 @@ function App() {
     <>
       <AppContext.Provider value={{ accessToken, setAccessToken }}>
         {location.pathname !== "/login" && <NavBar></NavBar>}
-        <br> </br>
         <Routes>
           <Route path="/" element={<Navigate replace to="/login" />} />
           <Route path="login" element={<Login />}></Route>

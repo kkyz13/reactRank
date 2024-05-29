@@ -6,21 +6,38 @@ import ErrorModal from "../components/ErrorModal";
 import { PacmanLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 import AppContext from "../context/AppContext";
+import Context from "../context/Context";
+import { jwtDecode } from "jwt-decode";
 
 const ControlPanel = () => {
   const [rankID, setRankID] = useState();
   const [rankName, setRankName] = useState("");
   const [userTell, setUserTell] = useState("");
+  const [accessToken, setAccessToken] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [selectRank, setSelectRank] = useState(false);
   const [showRank, setShowRank] = useState(false);
   const [confirmationModal, setConfirmationModal] = useState(false);
-  const [rankListFromAirTab, setRankListFromAirTab] = useState({ records: [] });
+  const [rankListFromAirTab, setRankListFromAirTab] = useState([]);
   const [myRanking, setMyRanking] = useState([]);
   const navigate = useNavigate();
-  const userCtx = useContext(AppContext)
-  
+  const userCtx = useContext(AppContext);
+  const Ctx = useContext(Context);
+  const [user, setUser] = useState("");
 
+  const loginCheck = () => {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      const token = JSON.parse(loggedInUser);
+      const decoded = jwtDecode(loggedInUser);
+      setUser(decoded.username);
+      setAccessToken(token.access);
+      // userCtx.setRefreshToken(token.refresh);}
+    } else {
+      alert("Something went wrong, dropping back to login");
+      navigate("/login");
+    }
+  };
   const resetSelector = () => {
     const selectorTarget = document.querySelector(".selector");
     selectorTarget.value = "default";
@@ -43,17 +60,14 @@ const ControlPanel = () => {
   }
   const fetchRankListFromAirTab = async () => {
     try {
-      setUserTell("FETCHing from Airtable");
+      setUserTell("Loading from Mongo Atlas...");
       setIsLoading(true);
-      const res = await fetch(
-        "https://api.airtable.com/v0/appea1L2EfUKfNpwi/RankLists",
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: import.meta.env.VITE_AIRTABLE,
-          },
-        }
-      );
+      const res = await fetch(import.meta.env.VITE_MYSERV + "/rank/get", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + accessToken,
+        },
+      });
       if (res.status === 200) {
         // console.log("successful fetch from Airtable");
         const data = await res.json();
@@ -62,36 +76,37 @@ const ControlPanel = () => {
         setUserTell("Successful Fetch");
       }
     } catch (error) {
-      // console.log(error);
+      console.log(error);
       setUserTell("Something wrong happened. Please Refresh");
     }
     setIsLoading(false);
   };
-  const getRankListToAirTab = async (target) => {
+  const getRankListToAirTab = async (id) => {
     try {
-      setUserTell("Getting from Airtable");
+      setUserTell("Getting from MongoDB");
       setIsLoading(true);
       // console.log(`getting ${target}`);
       const res = await fetch(
-        "https://api.airtable.com/v0/appea1L2EfUKfNpwi/RankLists/" + target,
+        import.meta.env.VITE_MYSERV + "/rank/get/q/?id=" + id,
         {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: import.meta.env.VITE_AIRTABLE,
+            Authorization: "Bearer " + accessToken,
           },
         }
       );
       if (res.status === 200) {
         // console.log("successful GET from Airtable");
         const data = await res.json();
-        setRankID(data.id);
-        setRankName(data.fields.Name);
-        setMyRanking(JSON.parse(data.fields.Ranking)); //Airtable returns nested items as stringified JSON
+        console.log(data);
+        setRankID(data._id);
+        setRankName(data.title);
+        setMyRanking(data.ranking);
         setShowRank(true);
       }
     } catch (error) {
-      // console.log(error);
+      console.log(error);
       setUserTell("Something wrong happaned. Please Refresh");
     }
     resetSelector();
@@ -110,13 +125,12 @@ const ControlPanel = () => {
       setUserTell("Deleting...");
       setIsLoading(true);
       const res = await fetch(
-        "https://api.airtable.com/v0/appea1L2EfUKfNpwi/RankLists?records%5B%5D=" +
-          target,
+        import.meta.env.VITE_MYSERV + "/rank/delete/" + target,
         {
           method: "Delete",
           headers: {
             "Content-Type": "application/json",
-            Authorization: import.meta.env.VITE_AIRTABLE,
+            Authorization: "Bearer " + accessToken,
           },
         }
       );
@@ -147,14 +161,20 @@ const ControlPanel = () => {
   };
   const handleLogout = () => {
     localStorage.removeItem("user");
-    userCtx.setAccessToken("")
+    userCtx.setAccessToken("");
     navigate("/login");
-    
-  }
+  };
   useEffect(() => {
-    // console.log("Loading from AirTable");
-    fetchRankListFromAirTab();
+    loginCheck();
   }, []);
+
+  useEffect(() => {
+    console.log(accessToken);
+    fetchRankListFromAirTab();
+  }, [accessToken]);
+  useEffect(() => {
+    console.log(myRanking);
+  }, [myRanking]);
 
   return (
     <>
@@ -196,11 +216,11 @@ const ControlPanel = () => {
               }}
             >
               <option value={"default"}>Existing Rankings:</option>
-              {selectRank ? (
-                rankListFromAirTab.records.map((entry, idx) => {
+              {selectRank && rankListFromAirTab.length > 0 ? (
+                rankListFromAirTab.map((entry, idx) => {
                   return (
-                    <option key={idx} value={entry.id}>
-                      {entry.fields.Name}
+                    <option key={idx} value={entry._id}>
+                      {entry.title}
                     </option>
                   );
                 })
@@ -214,7 +234,14 @@ const ControlPanel = () => {
             >
               Delete List
             </Button>
-            <button className="mx-1 btn btn-dark" onClick={()=>{handleLogout()}}>Logout</button>
+            <button
+              className="mx-1 btn btn-dark"
+              onClick={() => {
+                handleLogout();
+              }}
+            >
+              Logout
+            </button>
           </div>
           <div className="container">
             {isLoading && (
@@ -225,6 +252,7 @@ const ControlPanel = () => {
             Rank List Preview:
             <h3 className="display-6">{rankName}</h3>
             {showRank &&
+              myRanking.length > 0 &&
               myRanking.map((entry, idx) => {
                 return (
                   <RListing

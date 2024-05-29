@@ -133,28 +133,26 @@ const Ranking = (props) => {
       const res = await fetch(
         import.meta.env.VITE_MYSERV + "/rank/update/" + rankID,
         {
-          method: "PUT",
+          method: "PATCH",
           headers: {
             "Content-Type": "application/json",
             Authorization: "Bearer " + Ctx.accessToken,
           },
           body: JSON.stringify({
-            fields: {
-              title: rankTitleRef.current.value,
-              ranking: props.myRanking,
-            },
+            title: rankTitleRef.current.value,
+            ranking: props.myRanking,
           }),
         }
       );
       if (res.status === 200) {
         // console.log("successful PUT from Airtable");
         const data = await res.json();
-        // console.log(typeof data);
-        Ctx.setMyRanking(data.ranking); //Airtable returns nested items as stringified JSON
-        setRankID(data._id);
+        console.log(data);
+        Ctx.setMyRanking(data.msg.ranking); //Airtable returns nested items as stringified JSON
+        setRankID(data.msg._id);
         Ctx.setShowRank(true);
-        rankTitleRef.current.value = data.title;
-        fetchRankListFromAirTab();
+        rankTitleRef.current.value = data.msg.title;
+        fetchRankList();
         setUserTell("Saved! Give it a moment for updates to be reflected");
       }
     } catch (error) {

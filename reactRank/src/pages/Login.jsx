@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AppContext from "../context/AppContext";
 AppContext;
@@ -28,7 +28,9 @@ const Login = () => {
       console.log("SHIT");
     }
   };
-
+  const purgeLocal = () => {
+    localStorage.clear();
+  };
   const handleLogin = async () => {
     try {
       const response = await fetch(
@@ -47,6 +49,7 @@ const Login = () => {
         console.log("successful login");
         const data = await response.json();
         console.log(data);
+        Ctx.setAccessToken(data.access);
         localStorage.setItem("user", JSON.stringify(data));
         navigate("/ranker");
       }
@@ -85,6 +88,10 @@ const Login = () => {
       setError("Error. Please try again.");
     }
   };
+
+  useEffect(() => {
+    purgeLocal();
+  }, []);
   return (
     <div className="centered container flex-column border border-success-subtle p-3 rounded-5">
       <h6 className="display-6">Welcome to reactRank</h6>
