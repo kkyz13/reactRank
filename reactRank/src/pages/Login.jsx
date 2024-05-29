@@ -52,9 +52,12 @@ const Login = () => {
         Ctx.setAccessToken(data.access);
         localStorage.setItem("user", JSON.stringify(data));
         navigate("/ranker");
+      } else {
+        setError("Invalid username or password");
       }
     } catch (error) {
       console.log(error);
+      setError("Unable to login");
     }
   };
   const handleRegister = async () => {
