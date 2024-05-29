@@ -46,9 +46,9 @@ const Login = () => {
       );
 
       if (response.ok) {
-        console.log("successful login");
+        // console.log("successful login");
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
         Ctx.setAccessToken(data.access);
         localStorage.setItem("user", JSON.stringify(data));
         navigate("/ranker");
@@ -74,9 +74,10 @@ const Login = () => {
       if (response.ok) {
         // Registration successful, redirect to login
         setShowRegister(false);
-        usernameRef.current.value = "";
+        // usernameRef.current.value = "";
         newUserRef.current.value = "";
         setNewPassword("");
+        setConfirmPassword("");
         setError("Registration Successful");
       } else {
         const errorData = await response.json();
@@ -96,13 +97,13 @@ const Login = () => {
     <div className="centered container flex-column border border-success-subtle p-3 rounded-5">
       <h6 className="display-6">Welcome to reactRank</h6>
       <small> Rank games, powered by Rawg.io</small>
-      <button
+      {/* <button
         onClick={() => {
           healthCheck();
         }}
       >
         debug
-      </button>
+      </button> */}
       <div className="d-flex flex-column p-3">
         {!showRegister ? (
           <>
